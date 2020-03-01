@@ -17,9 +17,14 @@ form.addEventListener('submit', function(event) {
 
     if(value === '') {
         showFeedback(feedback, 'can not add empty value', 'alert-danger');
+    } else {
+        // add to list
+        addItem(value);
+        // add to storage
     }
 })
 
+// functions
 // show feedback
 
 function showFeedback(element, text, result) {
@@ -33,6 +38,23 @@ function showFeedback(element, text, result) {
     }, 3000)
 
 }
+
+//add item
+
+function addItem(value) {
+
+    const div = document.createElement('div');
+    div.classList.add('item', 'my-3', 'd-flex', 'justify-content-between', 'p-2');
+    div.innerHTML = `<h5 class="item-title text-capitalize">${value}</h5>
+    <span class="remove-icon text-danger"><i class="fas fa-trash"></i></span>`;
+
+    listItems.appendChild(div);
+    input.value = '';
+    showFeedback(feedback, 'item added to the list', 'alert-success');
+}
+
+
+
 
 
 
