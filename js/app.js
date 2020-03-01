@@ -32,7 +32,17 @@ clearBtn.addEventListener('click', function() {
         listItems.removeChild(listItems.children[0]);
         // clear storage
     }
-    
+});
+// delete one item
+
+listItems.addEventListener('click', function(event) {
+
+    if (event.target.parentElement.classList.contains('remove-icon')) {
+
+        let parent = event.target.parentElement.parentElement;
+        // console.log(parent);
+        listItems.removeChild(parent);
+    }
 })
 
 
