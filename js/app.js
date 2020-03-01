@@ -1,3 +1,56 @@
+
+// get elements
+
+const form = document.querySelector('#input-form');
+const input = document.querySelector('#input-value');
+const feedback = document.querySelector('.feedback');
+const listItems = document.querySelector('.list-items');
+const clearBtn = document.querySelector('.clearBtn');
+
+// add event listeners
+
+form.addEventListener('submit', function(event) {
+
+    event.preventDefault();
+    
+    const value = input.value;
+
+    if(value === '') {
+        showFeedback(feedback, 'can not add empty value', 'alert-danger');
+    }
+})
+
+// show feedback
+
+function showFeedback(element, text, result) {
+
+    element.classList.add('showItem',`${result}`);
+    element.innerHTML = `<p>${text}</p>`;
+
+    setTimeout(function() {
+    
+    element.classList.remove('showItem', `${result}`);
+    }, 3000)
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 (function() {
 
 
@@ -84,16 +137,6 @@
         removeIcons.forEach(icon => {
             icon.addEventListener('click', function(event) {
 
-                /*
-                const items = document.querySelectorAll('.item');
-
-                items.forEach(item => {
-                    
-                    itemList.removeChild(item);
-                })
-                */
-
-                
                 const item = event.target.parentElement.parentElement;
                 itemList.removeChild(item);
                 console.log(item)
@@ -131,3 +174,4 @@
         }
     })
 })();
+*/
