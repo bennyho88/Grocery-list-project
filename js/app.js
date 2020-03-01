@@ -24,6 +24,18 @@ form.addEventListener('submit', function(event) {
     }
 })
 
+// clear btn event list
+
+clearBtn.addEventListener('click', function() {
+
+    while(listItems.children.length > 0) {
+        listItems.removeChild(listItems.children[0]);
+        // clear storage
+    }
+    
+})
+
+
 // functions
 // show feedback
 
