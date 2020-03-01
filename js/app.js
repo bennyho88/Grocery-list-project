@@ -21,6 +21,7 @@ form.addEventListener('submit', function(event) {
         // add to list
         addItem(value);
         // add to storage
+        addStorage(value);
     }
 })
 
@@ -34,6 +35,7 @@ clearBtn.addEventListener('click', function() {
     }
 });
 // delete one item
+
 
 listItems.addEventListener('click', function(event) {
 
@@ -73,6 +75,22 @@ function addItem(value) {
     listItems.appendChild(div);
     input.value = '';
     showFeedback(feedback, 'item added to the list', 'alert-success');
+}
+
+// add to local storage
+
+function addStorage(value) {
+
+    let items;
+    
+    if(localStorage.getItem('grocery-list')) {
+        items = JSON.parse(localStorage.getItem('grocery-list'));
+    } else {
+        items = [];
+    }
+
+    items.push(value);
+    localStorage.setItem('grocery-list', JSON.stringify(items));
 }
 
 
