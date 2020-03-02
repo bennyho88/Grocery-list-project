@@ -45,10 +45,17 @@ listItems.addEventListener('click', function(event) {
         let parent = event.target.parentElement.parentElement;
         // console.log(parent);
         listItems.removeChild(parent);
+        let text = event.target.parentElement.previousElementSibling.textContent;
+       
+        clearSingle(text);
     }
 })
 
+// dom content  loaded
+document.addEventListener('DOMContentLoaded', function() {
 
+    loadItems();
+})
 // functions
 // show feedback
 
@@ -78,6 +85,19 @@ function addItem(value) {
     showFeedback(feedback, 'item added to the list', 'alert-success');
 }
 
+/*
+function addItem(value) {
+
+    const div = document.createElement('div');
+    div.classList.add('item', 'my-3', 'd-flex', 'justify-content-between', 'p-2');
+    div.innerHTML = `<h5 class="item-title text-capitalize">${value}</h5>
+    <span class="remove-icon text-danger"><i class="fas fa-trash"></i></span>`;
+
+    listItems.appendChild(div);
+    input.value = '';
+    showFeedback(feedback, 'item added to the list', 'alert-success');
+}
+*/
 // add to local storage
 
 function addStorage(value) {
@@ -92,16 +112,52 @@ function addStorage(value) {
 
     items.push(value);
     localStorage.setItem('grocery-list', JSON.stringify(items));
-}
+};
 
 // clear local storage
 
 function clearStorage() {
 
     localStorage.removeItem('grocery-list');
-    // clear storage
    
-}
+   
+};
+
+ // clear single item in the local storage
+ function clearSingle(value) {
+    
+    const tempItems = JSON.parse(localStorage.getItem('grocery-list'));
+    console.log(tempItems);
+
+    const items = tempItems.filter(function(item) {
+
+        if(item !== value) {
+
+            return item;
+        }
+    });
+    localStorage.removeItem('grocery-list');
+    localStorage.setItem('grocery-list', JSON.stringify(items));
+    console.log(items);
+ }
+
+ // load items
+ function loadItems() {
+     
+    if(localStorage.getItem('grocery-list')) {
+        const items = JSON.parse(localStorage.getItem('grocery-list'));
+
+        items.forEach(item => {
+            const div = document.createElement('div');
+    div.classList.add('item', 'my-3', 'd-flex', 'justify-content-between', 'p-2');
+    div.innerHTML = `<h5 class="item-title text-capitalize">${item}</h5>
+    <span class="remove-icon text-danger"><i class="fas fa-trash"></i></span>`;
+
+    listItems.appendChild(div);
+            addItem(item);
+        })
+    }
+ }
 
 
 
