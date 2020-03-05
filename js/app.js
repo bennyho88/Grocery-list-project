@@ -9,10 +9,223 @@ const clearBtn = document.querySelector('.clearBtn');
 
 // add event listeners
 
+form.addEventListener('submit', function (event) {
+
+    event.preventDefault();
+    console.log('hello');
+
+    const value = input.value;
+
+    if (value === '') {
+        showFeedback(feedback, 'can not add empty value', 'alert-danger');
+    } else {
+        // add to list
+        addItem(value);
+        // add to storage
+        addStorage(value);
+
+    }
+})
+
+// clear button event list
+
+clearBtn.addEventListener('click', function () {
+
+    // nodelist
+    /* 
+    const items = document.querySelectorAll('.item');
+   //  console.log(items);
+    
+    if (items.length > 0) {
+
+        items.forEach(item => {
+      
+           listItems.removeChild(item);
+        })
+    }
+    */
+
+    // html collection
+    while (listItems.children.length > 0) {
+        listItems.removeChild(listItems.children[0]);
+
+        // clear storage;
+        clearStorage();
+    }
+})
+
+// delete one item
+
+
+listItems.addEventListener('click', function (event) {
+
+    // console.log(event.target.parentElement.classList.contains('remove-icon'))
+
+
+    if (event.target.parentElement.classList.contains('remove-icon')) {
+
+        let parent = event.target.parentElement.parentElement;
+        listItems.removeChild(parent);
+
+        let text = event.target.parentElement.previousElementSibling.textContent;
+
+        clearSingle(text);
+
+    }
+
+
+})
+// dom content loaded
+
+document.addEventListener('DOMContentLoaded', function() {
+
+    loadItems();
+})
+
+// functions
+// show feedback 
+
+function showFeedback(element, text, result) {
+
+    element.classList.add('showItem', `${result}`);
+    element.innerHTML = `<p>${text}</p>`;
+
+    setTimeout(function () {
+
+        element.classList.remove('showItem', result);
+    }, 3000)
+}
+
+// add item
+
+function addItem(value) {
+
+    const div = document.createElement('div');
+    div.classList.add('item', 'my-3', 'd-flex', 'justify-content-between', 'p-2');
+    div.innerHTML = `
+    <h5 class="item-title text-capitalize">${value}</h5>
+    <span class="remove-icon text-danger"><i class="fas fa-trash"></i></span>
+    `
+    listItems.appendChild(div);
+    input.value = '';
+    showFeedback(feedback, 'item added to the list', 'alert-success');
+
+}
+
+// add to local storage
+
+
+function addStorage(value) {
+
+    let items;
+
+    // check if there are any items
+    if (localStorage.getItem('grocery-list')) {
+        // if there are values take the values and put it in item variable
+        items = JSON.parse(localStorage.getItem('grocery-list'));
+    } else {
+        // empty array
+        items = [];
+    }
+
+    items.push(value);
+    localStorage.setItem('grocery-list', JSON.stringify(items));
+}
+
+// clear local storage 
+
+function clearStorage() {
+    localStorage.removeItem('grocery-list');
+}
+
+// clear single item in the local storage
+
+function clearSingle(value) {
+
+    // to get array grocery list --> json parse
+    const tempItems = JSON.parse(localStorage.getItem('grocery-list'));
+    
+    // filter the items
+    const items = tempItems.filter(function (item) {
+
+        if (item !== value) {
+            return item
+        }
+
+    })
+    
+    
+    localStorage.removeItem('grocery-list');
+    localStorage.setItem('grocery-list', JSON.stringify(items));
+    
+}
+
+// load items 
+
+function loadItems() {
+    
+    if(localStorage.getItem('grocery-list')) {
+        const items = JSON.parse(localStorage.getItem('grocery-list'));
+
+        items.forEach(item => {
+            const div = document.createElement('div');
+    div.classList.add('item', 'my-3', 'd-flex', 'justify-content-between', 'p-2');
+    div.innerHTML = `<h5 class="item-title text-capitalize">${item}</h5>
+    <span class="remove-icon text-danger"><i class="fas fa-trash"></i></span>
+    `
+    listItems.appendChild(div);
+        })
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* first try
+// get elements
+
+const form = document.querySelector('#input-form');
+const input = document.querySelector('#input-value');
+const feedback = document.querySelector('.feedback');
+const listItems = document.querySelector('.list-items');
+const clearBtn = document.querySelector('.clearBtn');
+
+// add event listeners
+
 form.addEventListener('submit', function(event) {
 
     event.preventDefault();
-    
+
     const value = input.value;
 
     if(value === '') {
@@ -46,7 +259,7 @@ listItems.addEventListener('click', function(event) {
         // console.log(parent);
         listItems.removeChild(parent);
         let text = event.target.parentElement.previousElementSibling.textContent;
-       
+
         clearSingle(text);
     }
 })
@@ -65,7 +278,7 @@ function showFeedback(element, text, result) {
     element.innerHTML = `<p>${text}</p>`;
 
     setTimeout(function() {
-    
+
     element.classList.remove('showItem', `${result}`);
     }, 3000)
 
@@ -97,13 +310,13 @@ function addItem(value) {
     input.value = '';
     showFeedback(feedback, 'item added to the list', 'alert-success');
 }
-*/
+
 // add to local storage
 
 function addStorage(value) {
 
     let items;
-    
+
     if(localStorage.getItem('grocery-list')) {
         items = JSON.parse(localStorage.getItem('grocery-list'));
     } else {
@@ -119,13 +332,13 @@ function addStorage(value) {
 function clearStorage() {
 
     localStorage.removeItem('grocery-list');
-   
-   
+
+
 };
 
  // clear single item in the local storage
  function clearSingle(value) {
-    
+
     const tempItems = JSON.parse(localStorage.getItem('grocery-list'));
     console.log(tempItems);
 
@@ -143,7 +356,7 @@ function clearStorage() {
 
  // load items
  function loadItems() {
-     
+
     if(localStorage.getItem('grocery-list')) {
         const items = JSON.parse(localStorage.getItem('grocery-list'));
 
@@ -160,7 +373,7 @@ function clearStorage() {
  }
 
 
-
+*/
 
 
 
@@ -190,7 +403,7 @@ function clearStorage() {
 
    //  let dataItems = [];
 
-    
+
     let dataItems = JSON.parse(localStorage.getItem('list')) || [];
 
     if (dataItems.length > 0) {
@@ -205,9 +418,9 @@ function clearStorage() {
             `  )
             handleItems(item)
         });
-    
+
     }
-    
+
 
     inputForm.addEventListener('submit', function(event) {
 
@@ -269,7 +482,7 @@ function clearStorage() {
                 itemList.removeChild(item);
                 console.log(item)
                 console.log(item.children[0].textContent)
-               
+
 
                const itemName = item.children[0].textContent;
 
@@ -280,10 +493,10 @@ function clearStorage() {
 
                 localStorage.setItem('list', JSON.stringify(dataItems));
 
-                
+
             })
         })
-        
+
     };
 
     clearBtn.addEventListener('click', function() {
@@ -297,7 +510,7 @@ function clearStorage() {
             items.forEach(item => {
 
                 itemList.removeChild(item);
-            
+
             })
         }
     })
